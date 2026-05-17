@@ -4,7 +4,7 @@ from src.risk import RiskAnalyzer
 
 class BankAuditor:
     def __init__(self, api_key):
-        # ATUALIZAÇÃO: Usando o novo modelo Llama 3.3 (mais potente e atual)
+        # Usando o novo modelo Llama 3.3
         self.llm = ChatGroq(
             api_key=api_key,
             model_name="llama-3.3-70b-versatile",

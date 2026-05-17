@@ -1,5 +1,6 @@
 from fpdf import FPDF
 
+
 class PDFReport(FPDF):
     def header(self):
         self.set_font('Arial', 'B', 14)
@@ -11,6 +12,7 @@ class PDFReport(FPDF):
         self.set_font('Arial', 'I', 8)
         self.cell(0, 10, f'Pagina {self.page_no()}', 0, 0, 'C')
 
+
 def generate_pdf(data: dict, filename="parecer_final.pdf"):
     pdf = PDFReport()
     pdf.add_page()
@@ -20,7 +22,7 @@ def generate_pdf(data: dict, filename="parecer_final.pdf"):
     cor = (200, 0, 0) if data['risk'] == "ALTO" else (0, 0, 0)
     pdf.set_text_color(*cor)
     pdf.cell(0, 10, f"NIVEL DE RISCO IDENTIFICADO: {data['risk']}", ln=True)
-    pdf.set_text_color(0, 0, 0) # Volta para preto
+    pdf.set_text_color(0, 0, 0)  # Volta para preto
     pdf.ln(5)
 
     # Pergunta
@@ -34,9 +36,11 @@ def generate_pdf(data: dict, filename="parecer_final.pdf"):
     pdf.set_font("Arial", 'B', 11)
     pdf.cell(0, 10, "Parecer Tecnico:", ln=True)
     pdf.set_font("Arial", size=10)
-    # Tratamento simples para caracteres
-    texto = data['answer'].encode('latin-1', 'replace').decode('latin-1')
-    pdf.multi_cell(0, 7, texto)
+
+    # Garante que o texto esteja em um formato aceitável pelo FPDF padrão (latin-1)
+    # Para suporte total a UTF-8/Acentuação, recomenda-se usar a biblioteca fpdf2
+    answer_text = data['answer'].encode('latin-1', 'replace').decode('latin-1')
+    pdf.multi_cell(0, 7, answer_text)
     pdf.ln(5)
 
     # Fontes
